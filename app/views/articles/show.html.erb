@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+  <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+  <a href="/" class="w3-bar-item w3-button">Home</a>
+  <a href="/articles/new" class="w3-bar-item w3-button">New Artcle</a>
+</div>
+
+<style>
+button {
+  display: inline-block;
+  background-color: #7b38d8;
+  border-radius: 10px;
+  border: 4px double #cccccc;
+  color: #eeeeee;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+</style>
+
+
+<body style="background-color: #f3ead8">
+<div align="center">
+
+<div class="w3-container">
+
+
+
+</div>
+<div align = "right">
+
+  <div class="w3-card-4" style="width:89%;" align = "left">
+    <header class="w3-container w3-purple">
+    <h1><%= @article.title %></h1>
+    </header>
+
+    <div class="w3-container">
+    <p><%= @article.body %></p>
+    </div>
+
+    <footer class="w3-container w3-white">
+      <h5></h5>
+    </footer>
+<div align="center">
+    <h2>Comments</h2> 
+<%= render @article.comments %>
+
+<h2>Add a comment:</h2>
+<%= render 'comments/form' %>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="w3-container " align = "right">
+<ul>
+<button> <%= link_to "Edit", edit_article_path(@article) %></button>
+<button> <%= link_to "Destroy", article_path(@article), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %> </button>
+</ul>
+</div>
+
+</body>
+</html>
