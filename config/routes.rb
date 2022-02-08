@@ -11,4 +11,13 @@ Rails.application.routes.draw do
   resources :articles do
     resources :comments
   end
+
+
+  namespace :apis do
+    namespace :articles do
+      namespace :v1 do
+        get 'articles', to: "articles#articles"
+      end
+    end
+  end
 end
