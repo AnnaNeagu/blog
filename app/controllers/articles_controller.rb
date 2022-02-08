@@ -5,6 +5,11 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json
+    end
+
   end
 
   def new

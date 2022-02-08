@@ -7,7 +7,6 @@ class Apis::Posts::V1::PostsController < ApplicationController
                 content: post.content,
                 user: User.find(post.user_id).name,
                 topic: Topic.find(post.topic_id).name
-
             }
             @posts << p
         end
