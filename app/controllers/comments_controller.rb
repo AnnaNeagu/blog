@@ -5,6 +5,10 @@ class CommentsController < ApplicationController
       redirect_to article_path(@article)
     end
   
+      # if  @comment.save
+      #   CommentMailer.with(comment: @comment).new_comment_email.deliver_later
+      # end
+
     def destroy
       @article = Article.find(params[:article_id])
       @comment = @article.comments.find(params[:id])
