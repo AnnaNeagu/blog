@@ -21,10 +21,12 @@
     <%= comment.body %>
     </td>
     <td>
+    <% if current_user.admin or @article.user_id == current_user.id %>
     <%= link_to "Destroy Comment", [comment.article, comment], data: {
       turbo_method: :delete,
       turbo_confirm: "Are you sure?"
     } %>
+    <% end %>
     </td>
 </tr>
 </table>

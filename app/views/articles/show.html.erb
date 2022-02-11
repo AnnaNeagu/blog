@@ -70,11 +70,15 @@ button {
 
 <div class="w3-container " align = "right">
 <ul>
+<% if current_user.admin or @article.user_id == current_user.id %>
+
+
 <button> <%= link_to "Edit", edit_article_path(@article) %></button>
 <button> <%= link_to "Destroy", article_path(@article), data: {
                     turbo_method: :delete,
                     turbo_confirm: "Are you sure?"
                   } %> </button>
+<%end%>
 </ul>
 </div>
 
