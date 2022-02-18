@@ -7,6 +7,7 @@
          <h2>{{ article.title }}</h2>
      </router-link>
   </div>
+  
 </template>
 
 <script>
