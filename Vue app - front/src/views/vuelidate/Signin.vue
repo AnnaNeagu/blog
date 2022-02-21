@@ -1,34 +1,38 @@
 <template>
-  <div class="root">
-    <h2>Create an Account</h2>
-    <p>
-      <input type="text" placeholder="Email" v-model="state.email" />
-      <span v-if="v$.email.$error">
-        {{ v$.email.$errors[0].$message }}
-      </span>
-    </p>
-    <p>
-      <input
-        type="password"
-        placeholder="Password"
-        v-model="state.password.password"
-      />
-      <span v-if="v$.password.password.$error">
-        {{ v$.password.password.$errors[0].$message }}
-      </span>
-    </p>
-    <p>
-      <input
-        type="password"
-        placeholder=" Confirm Password"
-        v-model="state.password.confirm"
-      />
-      <span v-if="v$.password.confirm.$error">
-        {{ v$.password.confirm.$errors[0].$message }}
-      </span>
-    </p>
-    <button @click="submitForm">Submit</button>
-  </div>
+  <body style="background-color: #f3ead8">
+    <div class="root container">
+      <span class="text-black fw-bold"><h1>Create an Account</h1></span>
+      <div class="mw-3xl mx-auto">
+        <p>
+          <input type="text" placeholder="Email" v-model="state.email" />
+          <span v-if="v$.email.$error">
+            {{ v$.email.$errors[0].$message }}
+          </span>
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder="Password"
+            v-model="state.password.password"
+          />
+          <span v-if="v$.password.password.$error">
+            {{ v$.password.password.$errors[0].$message }}
+          </span>
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder=" Confirm Password"
+            v-model="state.password.confirm"
+          />
+          <span v-if="v$.password.confirm.$error">
+            {{ v$.password.confirm.$errors[0].$message }}
+          </span>
+        </p>
+        <button @click="submitForm">Submit</button>
+      </div>
+    </div>
+  </body>
 </template>
 <script>
 import useValidate from "@vuelidate/core";
@@ -43,7 +47,7 @@ import { reactive, computed } from "vue";
 export default {
   setup() {
     const state = reactive({
-      email: '',
+      email: "",
       password: {
         password: "",
         confirm: "",

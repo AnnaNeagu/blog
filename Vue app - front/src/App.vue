@@ -6,12 +6,12 @@
     <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <div id ="nav">
-     <router-link to="/">
+     <!-- <router-link to="/">
        Home
      </router-link>
      <router-link :to="{name: 'About'}">
       About
-     </router-link>
+     </router-link> -->
     <router-link :to="{name: 'Articles'}">
       Articles
      </router-link>

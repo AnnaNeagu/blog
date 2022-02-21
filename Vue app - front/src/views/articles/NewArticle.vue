@@ -1,27 +1,31 @@
 <template>
-  <div>
-    <h1>New Article</h1>
-  </div>
-  <p>
-    <input type="text" placeholder="Title" v-model="state.text" />
-    <span v-if="v$.text.$error">
-      {{ v$.text.$errors[0].$message }}
-    </span>
-  </p>
+  <body style="background-color: #f3ead8" >
+    <div class="home container">
+      <span class="text-black fw-bold"><h1>New Article</h1></span>
+      <div class="mw-3xl mx-auto">
+        <p>
+          <input type="text" placeholder="Title" v-model="state.text" />
+          <span v-if="v$.text.$error">
+            {{ v$.text.$errors[0].$message }}
+          </span>
+        </p>
 
-  <p>
-    <textarea
-      type="text"
-      placeholder="Body"
-      cols="22"
-      rows="6"
-      v-model="state.body"
-    ></textarea>
-     <span v-if="v$.body.$error">
-      {{ v$.body.$errors[0].$message }}
-    </span>
-  </p>
-  <button @click="submitForm">Submit</button>
+        <p>
+          <textarea
+            type="text"
+            placeholder="Body"
+            cols="22"
+            rows="6"
+            v-model="state.body"
+          ></textarea>
+          <span v-if="v$.body.$error">
+            {{ v$.body.$errors[0].$message }}
+          </span>
+        </p>
+        <button @click="submitForm">Submit</button>
+      </div>
+    </div>
+  </body>
 </template>
 
 <script>
@@ -31,22 +35,22 @@ import { reactive, computed } from "vue";
 export default {
   setup() {
     const state = reactive({
-      text: '',
-      body: '',
+      text: "",
+      body: "",
     });
 
     const rules = computed(() => {
       return {
         text: { required },
-        body: { required, minLength: minLength(10)},
+        body: { required, minLength: minLength(10) },
       };
     });
-    const v$ = useValidate(rules, state)
+    const v$ = useValidate(rules, state);
 
     return {
-      state, 
+      state,
       v$,
-    }
+    };
   },
 
   methods: {
