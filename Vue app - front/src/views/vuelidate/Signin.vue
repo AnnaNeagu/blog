@@ -4,8 +4,7 @@
     <p>
       <input type="text" placeholder="Email" v-model="state.email" />
       <span v-if="v$.email.$error">
-          {{ v$.email.$errors[0].$message }}
-
+        {{ v$.email.$errors[0].$message }}
       </span>
     </p>
     <p>
@@ -15,8 +14,7 @@
         v-model="state.password.password"
       />
       <span v-if="v$.password.password.$error">
-          {{ v$.password.password.$errors[0].$message }}
-
+        {{ v$.password.password.$errors[0].$message }}
       </span>
     </p>
     <p>
@@ -26,8 +24,7 @@
         v-model="state.password.confirm"
       />
       <span v-if="v$.password.confirm.$error">
-          {{ v$.password.confirm.$errors[0].$message }}
-
+        {{ v$.password.confirm.$errors[0].$message }}
       </span>
     </p>
     <button @click="submitForm">Submit</button>
@@ -35,39 +32,48 @@
 </template>
 <script>
 import useValidate from "@vuelidate/core";
-import { required, email, minLength, sameAs, helpers } from "@vuelidate/validators";
+import {
+  required,
+  email,
+  minLength,
+  sameAs,
+  helpers,
+} from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 export default {
   setup() {
     const state = reactive({
-      email: {required},
+      email: '',
       password: {
-        password: '',
-        confirm: '',
+        password: "",
+        confirm: "",
       },
-    })
+    });
 
-    const mustBeLearnVue = (value) => value.includes('learnvue')
+    const mustBeLearnVue = (value) => value.includes("gmail");
 
     const rules = computed(() => {
       return {
-        email: { required , 
-        email,
-         mustBeLearnVue: helpers.withMessage('Must be learnvue', mustBeLearnVue),
+        email: {
+          required,
+          email,
+          mustBeLearnVue: helpers.withMessage(
+            "Must be learnvue",
+            mustBeLearnVue
+          ),
         },
         password: {
           password: { required, minLength: minLength(6) },
-          confirm: { required , sameAs: sameAs(state.password.password)},
+          confirm: { required, sameAs: sameAs(state.password.password) },
         },
-      }
-    })
-    const v$ = useValidate(rules , state)
+      };
+    });
+    const v$ = useValidate(rules, state);
 
     return {
-        state,
-        v$
-    }
-
+      state,
+      v$,
+    };
   },
 
   methods: {
