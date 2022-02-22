@@ -2,18 +2,19 @@
 
 
   <h1>Article Details Page</h1>
+   <button style ="margin-right: 10px" type ="button" @click="editArticle">Edit</button>
+
+   <button style ="margin-left: 10px" type ="button" @click="deleteArticle">Delete</button>
    <p>{{ article.title }}</p>
   <p>The article id is {{ id }}</p>
   <p>The article: {{ article.body }}</p>
-  <p>Comments: {{ article.comments}}</p>
+  <!-- <p>Comments: {{ article.comments}}</p> -->
    <div v-for="comment in article.comments" :key="comment.id" > 
      <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
          <h2>{{ comment.commenter }}</h2>
          <h2>{{ comment.body }}</h2>
      <!-- </router-link> -->
   </div>
-
-
 
 
 <!-- comment -->
@@ -49,6 +50,7 @@
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
+import axios from 'axios';
 export default {
     props: ['id'],
     data(){
@@ -111,6 +113,15 @@ export default {
 
     this.article = await this.fetchArticle();
 
+  },
+
+  async deleteArticle() {
+    const res = await axios.delete("http://localhost:3000/apis/articles/v1/articles/" + this.article.id );  
+    
+    console.log(res);
+    if(res.status==200){
+        this.$router.replace({ name: "Articles" });
+    }
   },
 
 
