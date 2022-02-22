@@ -1,20 +1,19 @@
 <template>
 
-<div v-if="article">
+
   <h1>Article Details Page</h1>
    <p>{{ article.title }}</p>
   <p>The article id is {{ id }}</p>
   <p>The article: {{ article.body }}</p>
   <p>Comments: {{ article.comments}}</p>
-   <div v-for="comment in comments" :key="comment.id" class="comment">
-     <router-link :to="{name: 'Comment', params: {id: comments.id}}">
-         <h2>{{ commnets.body }}</h2>
-     </router-link>
+   <div v-for="comment in article.comments" :key="comment.id" > 
+     <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
+         <h2>{{ comment.commenter }}</h2>
+         <h2>{{ comment.body }}</h2>
+     <!-- </router-link> -->
   </div>
-</div>
-<div v-else>
-    <p> Loading article details...</p>
-</div>
+
+
 
 
 <!-- comment -->
@@ -54,9 +53,8 @@ export default {
     props: ['id'],
     data(){
         return{
-            article: null,
-            comments: [],
-            
+            article: {},
+           
         }
     },
     mounted(){
@@ -92,6 +90,30 @@ export default {
   },
 
   methods: {
+
+ async fetchArticle() {
+
+      const res = await fetch(
+
+        "http://localhost:3000/articles/" + this.id + ".json"
+
+      );
+
+      const data = await res.json();
+
+      return data;
+
+    },
+
+  
+
+  async created() {
+
+    this.article = await this.fetchArticle();
+
+  },
+
+
     submitForm() {
       this.v$.$validate();
       if (!this.v$.$error) {

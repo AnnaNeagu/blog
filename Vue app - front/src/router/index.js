@@ -26,20 +26,17 @@ const routes = [
         path: '/articles',
         name: 'Articles',
         component: Articles
-    }
-    ,
+    },
     {
         path: '/newarticle',
         name: 'NewArticle',
         component: NewArticle
-    }
-    ,
+    },
     {
-      path: '/signin',
-      name: 'Signin',
-      component: Signin
-  }
-  ,
+        path: '/signin',
+        name: 'Signin',
+        component: Signin
+    },
     {
         path: '/articles/:id',
         name: 'Article',
@@ -49,7 +46,7 @@ const routes = [
     //redirect
     {
         path: '/all-articles',
-        redirect : '/articles'
+        redirect: '/articles'
 
     },
     //catchall 404
@@ -58,7 +55,7 @@ const routes = [
         name: 'NotFound',
         component: NotFound
     }
-    
+
 ]
 
 
@@ -82,9 +79,9 @@ const router = createRouter({
     //         email: { required, email } // Matches state.contact.email
     //       }
     //     }
-    
+
     //     const v$ = useVuelidate(rules, state)
-    
+
     //     return { state, v$ }
     //   }
 })

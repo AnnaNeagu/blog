@@ -1,5 +1,5 @@
 <template>
-  <body style="background-color: #f3ead8">
+  <body style="background-color: ">
     <div class="root container">
       <span class="text-black fw-bold"><h1>Create an Account</h1></span>
       <div class="mw-3xl mx-auto">

@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   namespace :apis do
     namespace :articles do
       namespace :v1 do
-        get 'articles', to: "articles#articles"
+        # get 'articles', to: "articles#articles"
+        resources :articles
       end
     end
   end

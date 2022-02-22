@@ -1,6 +1,6 @@
 <template>
-  <body style="background-color: #f3ead8">
-    <div class="home container">
+  
+    <div class="home container" style="background-color: ; max-width: 100%; max-height: 100%;">
       <span class="text-black fw-bold"> <h1>Articles</h1></span>
       <div class="mw-3xl mx-auto">
           <p>
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-  </body>
+  
 </template>
 
 <script>
