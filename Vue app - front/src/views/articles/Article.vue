@@ -1,129 +1,161 @@
 <template>
+  <div
+    class="home container"
+    style="margin-top: 100px; background-color: #f3ead8"
+  >
+    <h1>
+      <p>{{ article.title }}</p>
+    </h1>
+    <button style="margin-right: 10px" type="button" @click="editArticle">
+      Edit
+    </button>
 
+    <button style="margin-left: 10px" type="button" @click="deleteArticle">
+      Delete
+    </button>
 
-  <h1>Article Details Page</h1>
-   <button style ="margin-right: 10px" type ="button" @click="editArticle">Edit</button>
-
-   <button style ="margin-left: 10px" type ="button" @click="deleteArticle">Delete</button>
-   <p>{{ article.title }}</p>
-  <p>The article id is {{ id }}</p>
-  <p>The article: {{ article.body }}</p>
-  <!-- <p>Comments: {{ article.comments}}</p> -->
-   <div v-for="comment in article.comments" :key="comment.id" > 
-     <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
-         <h2>{{ comment.commenter }}</h2>
-         <h2>{{ comment.body }}</h2>
-     <!-- </router-link> -->
+    <!-- <p>The article id is {{ id }}</p> -->
+    <p>{{ article.body }}</p>
   </div>
 
+  <div
+    class="home container"
+    style="margin-top: 100px; background-color: #f3ead8"
+  >
+    <!-- <p>Comments: {{ article.comments}}</p> -->
+    <div v-for="comment in article.comments" :key="comment.id">
+      <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
+      <table class="table table-success table-striped" border ="1">
+        <thead>
+          <tr>           
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">Commenter: {{ comment.commenter }}</td>
+            <td align="left">Comment: {{ comment.body }}</td>
+          </tr>
+         
+        </tbody>
+      </table>
 
-<!-- comment -->
-  <div>
-    <h1>New Comment</h1>
+      <!-- </router-link> -->
+    </div>
   </div>
-  <p>
-    <input type="text" placeholder="Commenter" v-model="state.text" />
-    <span v-if="v$.text.$error">
-      {{ v$.text.$errors[0].$message }}
-    </span>
-  </p>
+  <!-- comment -->
+  <div
+    class="home container"
+    style="margin-top: 100px; background-color: #f3ead8"
+  >
+    <span class="text-black fw-bold"><h1>Comment</h1></span>
+    <div class="row">
+      <div class="col-3 container">
+        <form>
+          <div class="mw-3xl mx-auto">
+            <p>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Commenter"
+                v-model="state.text"
+              />
+              <span v-if="v$.text.$error">
+                {{ v$.text.$errors[0].$message }}
+              </span>
+            </p>
 
-  <p>
-    <textarea
-      type="text"
-      placeholder="Body"
-      cols="22"
-      rows="6"
-      v-model="state.body"
-    ></textarea>
-     <span v-if="v$.body.$error">
-      {{ v$.body.$errors[0].$message }}
-    </span>
-  </p>
-  <button @click="submitForm">Submit</button>
-
-
-
+            <p>
+              <textarea
+                type="text"
+                placeholder="Body"
+                class="form-control"
+                cols="22"
+                rows="6"
+                v-model="state.body"
+              ></textarea>
+              <span v-if="v$.body.$error">
+                {{ v$.body.$errors[0].$message }}
+              </span>
+            </p>
+            <button  type="button" class="btn btn-outline-success" @click="submitForm">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+   <div
+    class="home container" style="margin-top: 100px"/>
 </template>
 
 <script>
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
-import axios from 'axios';
+import axios from "axios";
 export default {
-    props: ['id'],
-    data(){
-        return{
-            article: {},
-           
-        }
-    },
-    mounted(){
-         fetch('http://localhost:3000/articles/'+ this.id +'.json')
-        .then(res => res.json())
-        .then(data => this.article = data)
-        .catch(err => console.log(err.message))
-    },
-    // data(){
-    //     return{
-    //         id: this.$route.params.id
-    //     }
-    // }
+  props: ["id"],
+  data() {
+    return {
+      article: {},
+    };
+  },
+  mounted() {
+    fetch("http://localhost:3000/articles/" + this.id + ".json")
+      .then((res) => res.json())
+      .then((data) => (this.article = data))
+      .catch((err) => console.log(err.message));
+  },
+  // data(){
+  //     return{
+  //         id: this.$route.params.id
+  //     }
+  // }
 
-    setup() {
+  setup() {
     const state = reactive({
-      text: '',
-      body: '',
+      text: "",
+      body: "",
     });
 
     const rules = computed(() => {
       return {
         text: { required },
-        body: { required, minLength: minLength(10)},
+        body: { required, minLength: minLength(10) },
       };
     });
-    const v$ = useValidate(rules, state)
+    const v$ = useValidate(rules, state);
 
     return {
-      state, 
+      state,
       v$,
-    }
+    };
   },
 
   methods: {
-
- async fetchArticle() {
-
+    async fetchArticle() {
       const res = await fetch(
-
         "http://localhost:3000/articles/" + this.id + ".json"
-
       );
 
       const data = await res.json();
 
       return data;
-
     },
 
-  
+    async created() {
+      this.article = await this.fetchArticle();
+    },
 
-  async created() {
+    async deleteArticle() {
+      const res = await axios.delete(
+        "http://localhost:3000/apis/articles/v1/articles/" + this.article.id
+      );
 
-    this.article = await this.fetchArticle();
-
-  },
-
-  async deleteArticle() {
-    const res = await axios.delete("http://localhost:3000/apis/articles/v1/articles/" + this.article.id );  
-    
-    console.log(res);
-    if(res.status==200){
+      console.log(res);
+      if (res.status == 200) {
         this.$router.replace({ name: "Articles" });
-    }
-  },
-
+      }
+    },
 
     submitForm() {
       this.v$.$validate();
@@ -134,15 +166,8 @@ export default {
       }
     },
   },
-
-
-
-
-
-
-}
+};
 </script>
 
 <style>
-
 </style>

@@ -1,35 +1,57 @@
 <template>
   <body style="background-color: ">
-    <div class="root container">
+    <div
+      class="home container"
+      style="margin-top: 100px; background-color: #f3ead8"
+    >
       <span class="text-black fw-bold"><h1>Create an Account</h1></span>
-      <div class="mw-3xl mx-auto">
-        <p>
-          <input type="text" placeholder="Email" v-model="state.email" />
-          <span v-if="v$.email.$error">
-            {{ v$.email.$errors[0].$message }}
-          </span>
-        </p>
-        <p>
-          <input
-            type="password"
-            placeholder="Password"
-            v-model="state.password.password"
-          />
-          <span v-if="v$.password.password.$error">
-            {{ v$.password.password.$errors[0].$message }}
-          </span>
-        </p>
-        <p>
-          <input
-            type="password"
-            placeholder=" Confirm Password"
-            v-model="state.password.confirm"
-          />
-          <span v-if="v$.password.confirm.$error">
-            {{ v$.password.confirm.$errors[0].$message }}
-          </span>
-        </p>
-        <button @click="submitForm">Submit</button>
+      <div class="row">
+        <div class="col-3 container">
+          <form>
+            <div class="mw-3xl mx-auto">
+              <p>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Email"
+                  v-model="state.email"
+                />
+                <span v-if="v$.email.$error">
+                  {{ v$.email.$errors[0].$message }}
+                </span>
+              </p>
+              <p>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  class="form-control"
+                  v-model="state.password.password"
+                />
+                <span v-if="v$.password.password.$error">
+                  {{ v$.password.password.$errors[0].$message }}
+                </span>
+              </p>
+              <p>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder=" Confirm Password"
+                  v-model="state.password.confirm"
+                />
+                <span v-if="v$.password.confirm.$error">
+                  {{ v$.password.confirm.$errors[0].$message }}
+                </span>
+              </p>
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                @click="submitForm"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </body>

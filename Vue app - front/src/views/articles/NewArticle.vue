@@ -1,40 +1,61 @@
 <template>
   <body style="background-color: ">
-    <div class="home container">
+    <div
+      class="home container"
+      style="margin-top: 100px; background-color: #f3ead8"
+    >
       <span class="text-black fw-bold"><h1>New Article</h1></span>
-      <form>
-        <div class="mw-3xl mx-auto">
-          <p>
-            <input type="text" placeholder="Title" v-model="state.text" />
-            <span v-if="v$.text.$error">
-              {{ v$.text.$errors[0].$message }}
-            </span>
-          </p>
-          <p>
-            <textarea
-              type="text"
-              placeholder="Body"
-              cols="22"
-              rows="6"
-              v-model="state.body"
-            ></textarea>
-            <span v-if="v$.body.$error">
-              {{ v$.body.$errors[0].$message }}
-            </span>
-          </p>
-          <p>
-            <select v-model="state.status">
-              <option value="public">public</option>
-              <option value="private">private</option>
-              <option value="archived">archived</option>
-            </select>
-            <span v-if="v$.status.$error">
-              {{ v$.status.$errors[0].$message }}
-            </span>
-          </p>
-          <button type="button" @click="submitForm">Submit</button>
+      <div class="row">
+        <div class="col-3 container">
+          <form>
+            <div class="mw-3xl mx-auto">
+              <p>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  v-model="state.text"
+                />
+                <span v-if="v$.text.$error">
+                  {{ v$.text.$errors[0].$message }}
+                </span>
+              </p>
+              <p>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  placeholder="Body"
+                  cols="22"
+                  rows="6"
+                  v-model="state.body"
+                ></textarea>
+                <span v-if="v$.body.$error">
+                  {{ v$.body.$errors[0].$message }}
+                </span>
+              </p>
+              <p>
+                <select v-model="state.status" class="form-control">
+                  <option value="public">public</option>
+                  <option value="private">private</option>
+                  <option value="archived">archived</option>
+                </select>
+                <span v-if="v$.status.$error">
+                  {{ v$.status.$errors[0].$message }}
+                </span>
+              </p>
+              <div class="d-grid gap-2 d-md-block">
+                <button
+                  type="button"
+                  class="btn btn-outline-success"
+                  @click="submitForm"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </body>
 </template>
@@ -43,7 +64,7 @@
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "NewArticle",
   setup() {
@@ -83,13 +104,13 @@ export default {
         const res = await axios.post(
           "http://localhost:3000/apis/articles/v1/articles",
           {
-           title: this.state.text,
+            title: this.state.text,
             body: this.state.body,
             status: this.state.status,
             // when I implement the login I mush change the user_id that is sent
             user_id: 1,
             headers: {
-             origin: "http://localhost:3000",
+              origin: "http://localhost:3000",
             },
           }
         );
@@ -107,6 +128,5 @@ export default {
       e.preventDefault();
     },
   },
-  
-}
+};
 </script>
