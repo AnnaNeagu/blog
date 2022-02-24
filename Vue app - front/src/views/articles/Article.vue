@@ -16,32 +16,13 @@
 
     <!-- <p>The article id is {{ id }}</p> -->
     <p>{{ article.body }}</p>
+
+    <div v-for="comment in article.comments" :key="comment.id" >
+      <Comment :comment="comment"/>
+       </div>
   </div>
 
-  <div
-    class="home container"
-    style="margin-top: 100px; background-color: #f3ead8"
-  >
-    <!-- <p>Comments: {{ article.comments}}</p> -->
-    <div v-for="comment in article.comments" :key="comment.id">
-      <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
-      <table class="table table-success table-striped" border ="1">
-        <thead>
-          <tr>           
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td align="left">Commenter: {{ comment.commenter }}</td>
-            <td align="left">Comment: {{ comment.body }}</td>
-          </tr>
-         
-        </tbody>
-      </table>
-
-      <!-- </router-link> -->
-    </div>
-  </div>
+ 
   <!-- comment -->
   <div
     class="home container"
@@ -77,6 +58,16 @@
                 {{ v$.body.$errors[0].$message }}
               </span>
             </p>
+             <p>
+                <select v-model="state.status" class="form-control">
+                  <option value="public">public</option>
+                  <option value="private">private</option>
+                  <option value="archived">archived</option>
+                </select>
+                <span v-if="v$.status.$error">
+                  {{ v$.status.$errors[0].$message }}
+                </span>
+              </p>
             <button  type="button" class="btn btn-outline-success" @click="submitForm">Submit</button>
           </div>
         </form>
@@ -91,14 +82,21 @@
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
-import axios from "axios";
+import axios from "axios"; 
+import Comment from './Comment'
+
 export default {
   props: ["id"],
+  name: "Content",
+  components: {
+    Comment,
+  },
   data() {
     return {
       article: {},
     };
   },
+  
   mounted() {
     fetch("http://localhost:3000/articles/" + this.id + ".json")
       .then((res) => res.json())
@@ -115,12 +113,14 @@ export default {
     const state = reactive({
       text: "",
       body: "",
+      status: "",
     });
 
     const rules = computed(() => {
       return {
         text: { required },
         body: { required, minLength: minLength(10) },
+        status: {required},
       };
     });
     const v$ = useValidate(rules, state);
@@ -157,11 +157,30 @@ export default {
       }
     },
 
-    submitForm() {
+     async submitForm() {
       this.v$.$validate();
       if (!this.v$.$error) {
         alert("Form successfuly submitted.");
-      } else {
+        const res = await axios.post(
+          "http://localhost:3000/apis/comments/v1/articles/" +
+            this.article.id +
+            "/comments",
+          {
+            commenter: this.state.text,
+            body: this.state.body,
+            status: this.state.status,
+            // when I implement the login I mush change the user_id that is sent
+           
+            headers: {
+              origin: "http://localhost:3000",
+            },
+          }
+        );
+        console.log(res);
+        if (res.status == 200) {
+         this.$router.go(0);
+        }
+      }  else {
         alert("Form failed validation.");
       }
     },

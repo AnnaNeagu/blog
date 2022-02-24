@@ -1,24 +1,54 @@
 <template>
-  <div v-if="coments">
-    <h1>Commnet</h1>
-    <p>Comment id {{ id }}</p>
-    <p>{{ comments.body }}</p>
-  </div>
+ 
+    <!-- <p>Comments: {{ article.comments}}</p> -->
+    
+      <!-- <router-link :to="{name: 'Comment', params: {id: comment.id}}"> -->
+      <table class="table table-success table-striped" border="1">
+        <thead>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">Commenter: {{ comment.commenter }}</td>
+            <td align="left">Comment: {{ comment.body }}</td>
+            <td align="left">
+              <button
+                @click="deleteComment"
+                class="btn btn-b-danger"
+                style="margin: 5px"
+                type="button"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- </router-link> -->
+  
+ 
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  props: ["id"],
-  data() {
-    return {
-      comments: null,
-    };
+  name: "Comment",
+  props: {
+    comment: Object,
   },
-  mounted() {
-    fetch("http://localhost:3000/articles/" + this.id + ".json")
-      .then((res) => res.json())
-      .then((data) => (this.comments = data))
-      .catch((err) => console.log(err.message));
+  methods: {
+    async deleteComment() {
+      const res = await axios.delete(
+        "http://localhost:3000/apis/comments/v1/articles/" +
+          this.comment.article_id +
+          "/comments/" +
+          this.comment.id
+      );
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
+    },
   },
 };
 </script>
