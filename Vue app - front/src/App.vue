@@ -1,5 +1,4 @@
 <template>
-
   <!-- <div class="container">
     <Articles :articles="articles" />
     </div> -->
@@ -135,7 +134,7 @@
 
  #nav a.router-link-exact-active{
    color:white;
-   background: crimson;
+   background: rgb(6, 131, 17);
 
  }
 

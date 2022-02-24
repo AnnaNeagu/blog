@@ -6,11 +6,11 @@
     <h1>
       <p>{{ article.title }}</p>
     </h1>
-    <button style="margin-right: 10px" type="button" @click="editArticle">
+    <button style="margin-right: 10px" type="button" class="btn btn-outline-success" @click="editArticle">
       Edit
     </button>
 
-    <button style="margin-left: 10px" type="button" @click="deleteArticle">
+    <button style="margin-left: 10px" type="button" class="btn btn-outline-success" @click="deleteArticle">
       Delete
     </button>
 

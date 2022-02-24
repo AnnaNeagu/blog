@@ -14,8 +14,7 @@
             <td align="left">
               <button
                 @click="deleteComment"
-                class="btn btn-b-danger"
-                style="margin: 5px"
+                 class="btn btn-outline-success"
                 type="button"
               >
                 Delete
