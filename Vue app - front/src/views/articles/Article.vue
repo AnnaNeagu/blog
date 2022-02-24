@@ -1,28 +1,65 @@
 <template>
   <div
-    class="home container"
+    class="root container"
     style="margin-top: 100px; background-color: #f3ead8"
   >
     <h1>
       <p>{{ article.title }}</p>
     </h1>
-    <button style="margin-right: 10px" type="button" class="btn btn-outline-success" @click="editArticle">
+    <button
+      style="margin-right: 10px"
+      type="button"
+      class="btn btn-outline-success"
+      @click="editArticle"
+    >
       Edit
     </button>
 
-    <button style="margin-left: 10px" type="button" class="btn btn-outline-success" @click="deleteArticle">
+    <!-- <button
+      style="margin-left: 10px"
+      type="button"
+      class="btn btn-outline-success"
+      @click="deleteArticle"
+    >
+      Delete
+    </button> -->
+
+    <button
+      style="margin-left: 10px"
+      type="button"
+      class="btn btn-outline-success"
+      @click="isOpen = true"
+    >
+     Delete
+    </button>
+    <teleport to="body">
+    <div class="modal" v-if="isOpen">
+      <div>
+        <!-- <h2>Notification</h2> -->
+        <p>Are you sure you want to delete this article?</p>
+        <button @click="isOpen = false" style="margin-left: 10px"
+      type="button"
+      class="btn btn-outline-success">Close</button>
+         <button
+      style="margin-left: 10px"
+      type="button"
+      class="btn btn-outline-success"
+      @click="deleteArticle"
+    >
       Delete
     </button>
+      </div>
+    </div>
+</teleport>
 
     <!-- <p>The article id is {{ id }}</p> -->
     <p>{{ article.body }}</p>
 
-    <div v-for="comment in article.comments" :key="comment.id" >
-      <Comment :comment="comment"/>
-       </div>
+    <div v-for="comment in article.comments" :key="comment.id">
+      <Comment :comment="comment" />
+    </div>
   </div>
 
- 
   <!-- comment -->
   <div
     class="home container"
@@ -58,33 +95,38 @@
                 {{ v$.body.$errors[0].$message }}
               </span>
             </p>
-             <p>
-                <select v-model="state.status" class="form-control">
-                  <option value="public">public</option>
-                  <option value="private">private</option>
-                  <option value="archived">archived</option>
-                </select>
-                <span v-if="v$.status.$error">
-                  {{ v$.status.$errors[0].$message }}
-                </span>
-              </p>
-            <button  type="button" class="btn btn-outline-success" @click="submitForm">Submit</button>
+            <p>
+              <select v-model="state.status" class="form-control">
+                <option value="public">public</option>
+                <option value="private">private</option>
+                <option value="archived">archived</option>
+              </select>
+              <span v-if="v$.status.$error">
+                {{ v$.status.$errors[0].$message }}
+              </span>
+            </p>
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              @click="submitForm"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-   <div
-    class="home container" style="margin-top: 100px"/>
+  <div class="home container" style="margin-top: 100px" />
 </template>
 
 <script>
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
-import axios from "axios"; 
-import Comment from './Comment'
-
+import axios from "axios";
+import Comment from "./Comment";
+import {ref} from "vue";
 export default {
   props: ["id"],
   name: "Content",
@@ -96,7 +138,7 @@ export default {
       article: {},
     };
   },
-  
+
   mounted() {
     fetch("http://localhost:3000/articles/" + this.id + ".json")
       .then((res) => res.json())
@@ -110,6 +152,8 @@ export default {
   // }
 
   setup() {
+    
+
     const state = reactive({
       text: "",
       body: "",
@@ -120,15 +164,18 @@ export default {
       return {
         text: { required },
         body: { required, minLength: minLength(10) },
-        status: {required},
+        status: { required },
       };
     });
     const v$ = useValidate(rules, state);
-
+    const isOpen =  ref(false);
+    
     return {
       state,
       v$,
+      isOpen,
     };
+    
   },
 
   methods: {
@@ -157,7 +204,7 @@ export default {
       }
     },
 
-     async submitForm() {
+    async submitForm() {
       this.v$.$validate();
       if (!this.v$.$error) {
         alert("Form successfuly submitted.");
@@ -170,7 +217,7 @@ export default {
             body: this.state.body,
             status: this.state.status,
             // when I implement the login I mush change the user_id that is sent
-           
+
             headers: {
               origin: "http://localhost:3000",
             },
@@ -178,15 +225,39 @@ export default {
         );
         console.log(res);
         if (res.status == 200) {
-         this.$router.go(0);
+          this.$router.go(0);
         }
-      }  else {
+      } else {
         alert("Form failed validation.");
       }
     },
   },
 };
+
+
 </script>
 
 <style>
+.root {
+  position: relative;
+}
+
+.modal{
+  position: absolute;
+  top: 0;
+  left:0;
+  background-color: rgba(0,0,0,0.1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal > div{
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 10px;
+}
+
 </style>

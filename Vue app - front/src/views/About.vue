@@ -1,8 +1,53 @@
-<template>
-    <div class="about">
-        <h1>About page</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi enim, sequi quo, corporis amet modi esse pariatur nam et voluptas doloribus magnam? Labore quidem ratione asperiores accusamus provident culpa inventore sapiente tempora? Reiciendis quos sed enim, voluptates maxime laboriosam eum dolorum, minus, sint accusantium debitis voluptate! Sapiente mollitia fugiat quod et nulla nemo exercitationem optio, vitae at. Ducimus, earum nostrum perferendis libero impedit natus, ad sunt veniam deserunt voluptate consectetur accusantium tenetur corporis quis doloremque ipsam? Hic, corporis dolor quia minima iste facilis, id doloribus fugit distinctio impedit ratione autem beatae tenetur ipsam, voluptatem ipsa labore accusamus error pariatur modi.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </div>
+ <template>
+  <div class="root">
+    <button @click="isOpen = true">Test</button>
+    <teleport to="body">
+      <div class="modal" v-if="isOpen">
+        <div>
+          <h2>Notification</h2>
+          <p>some text</p>
+          <button @click="isOpen = false">Close</button>
+        </div>
+      </div>
+    </teleport>
+  </div>
 </template>
+
+<script>
+import { ref } from "vue";
+export default {
+  setup() {
+    const isOpen = ref(false);
+    return {
+      isOpen,
+    };
+  },
+};
+</script>
+
+<style>
+.root {
+  position: relative;
+}
+
+.modal{
+  position: absolute;
+  top: 0;
+  left:0;
+  background-color: rgba(0,0,0,0.1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal > div{
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 10px;
+}
+
+</style>
+
+
