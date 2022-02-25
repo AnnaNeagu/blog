@@ -30,33 +30,40 @@
       class="btn btn-outline-success"
       @click="isOpen = true"
     >
-     Delete
-    </button>
-    <teleport to="body">
-    <div class="modal" v-if="isOpen">
-      <div>
-        <!-- <h2>Notification</h2> -->
-        <p>Are you sure you want to delete this article?</p>
-        <button @click="isOpen = false" style="margin-left: 10px"
-      type="button"
-      class="btn btn-outline-success">Close</button>
-         <button
-      style="margin-left: 10px"
-      type="button"
-      class="btn btn-outline-success"
-      @click="deleteArticle"
-    >
       Delete
     </button>
+    <teleport to="body">
+      <div class="modal" v-if="isOpen">
+        <div>
+          <!-- <h2>Notification</h2> -->
+          <p>Are you sure you want to delete this article?</p>
+          <button
+            @click="isOpen = false"
+            style="margin-left: 10px"
+            type="button"
+            class="btn btn-outline-success"
+          >
+            Close
+          </button>
+          <button
+            style="margin-left: 10px"
+            type="button"
+            class="btn btn-outline-success"
+            @click="deleteArticle"
+          >
+            Delete
+          </button>
+        </div>
       </div>
-    </div>
-</teleport>
+    </teleport>
 
     <!-- <p>The article id is {{ id }}</p> -->
     <p>{{ article.body }}</p>
 
     <div v-for="comment in article.comments" :key="comment.id">
-      <Comment :comment="comment" />
+      <div v-if="comment.status == 'public'">
+        <Comment :comment="comment" />
+      </div>
     </div>
   </div>
 
@@ -126,7 +133,7 @@ import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 import axios from "axios";
 import Comment from "./Comment";
-import {ref} from "vue";
+import { ref } from "vue";
 export default {
   props: ["id"],
   name: "Content",
@@ -152,8 +159,6 @@ export default {
   // }
 
   setup() {
-    
-
     const state = reactive({
       text: "",
       body: "",
@@ -168,14 +173,13 @@ export default {
       };
     });
     const v$ = useValidate(rules, state);
-    const isOpen =  ref(false);
-    
+    const isOpen = ref(false);
+
     return {
       state,
       v$,
       isOpen,
     };
-    
   },
 
   methods: {
@@ -233,8 +237,6 @@ export default {
     },
   },
 };
-
-
 </script>
 
 <style>
@@ -242,11 +244,11 @@ export default {
   position: relative;
 }
 
-.modal{
+.modal {
   position: absolute;
   top: 0;
-  left:0;
-  background-color: rgba(0,0,0,0.1);
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
   display: flex;
@@ -254,10 +256,9 @@ export default {
   align-items: center;
 }
 
-.modal > div{
+.modal > div {
   background-color: #fff;
   padding: 50px;
   border-radius: 10px;
 }
-
 </style>

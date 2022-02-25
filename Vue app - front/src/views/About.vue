@@ -47,7 +47,6 @@ export default {
   padding: 50px;
   border-radius: 10px;
 }
-
 </style>
 
 

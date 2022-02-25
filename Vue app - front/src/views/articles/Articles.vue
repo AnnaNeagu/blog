@@ -14,7 +14,9 @@
         </p>
         <div v-for="article in articles" :key="article.id" class="article">
           <router-link :to="{ name: 'Article', params: { id: article.id } }">
+            <div v-if="article.status == 'public'">
             <h2>{{ article.title }}</h2>
+            </div>
           </router-link>
         </div>
       </div>
