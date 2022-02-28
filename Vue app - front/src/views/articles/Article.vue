@@ -6,7 +6,11 @@
     <h1>
       <p>{{ article.title }}</p>
     </h1>
-    <button
+    
+    <router-link
+          :to="{ name: 'EditArticle', params: { id_edit: article.id } }"
+        >
+         <button
       style="margin-right: 10px"
       type="button"
       class="btn btn-outline-success"
@@ -14,6 +18,7 @@
     >
       Edit
     </button>
+        </router-link>
 
     <!-- <button
       style="margin-left: 10px"
@@ -36,7 +41,7 @@
       <div class="modal" v-if="isOpen">
         <div>
           <!-- <h2>Notification</h2> -->
-          <p>Are you sure you want to delete this article?</p>
+          <p>Are you sure? You want to delete this article?</p>
           <button
             @click="isOpen = false"
             style="margin-left: 10px"
@@ -184,13 +189,22 @@ export default {
 
   methods: {
     async fetchArticle() {
-      const res = await fetch(
-        "http://localhost:3000/articles/" + this.id + ".json"
-      );
+      // const res = await fetch(
+      //   "http://localhost:3000/articles/" + this.id + ".json"
+      // );
 
-      const data = await res.json();
+      // const data = await res.json();
 
-      return data;
+      // return data;
+      try {
+        const res = await fetch(
+          "http://localhost:3000/articles/" + this.id + ".json"
+        )
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     async created() {
@@ -239,7 +253,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .root {
   position: relative;
 }

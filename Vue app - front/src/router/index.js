@@ -10,6 +10,7 @@ import NewArticle from '../views/articles/NewArticle.vue'
 // import useVuelidate from '@vuelidate/core'
 // import { required, email } from '@vuelidate/validators'
 import Signin from '../views/vuelidate/Signin.vue'
+import EditArticle from "../views/articles/EditArticle.vue";
 
 const routes = [
     {
@@ -43,6 +44,12 @@ const routes = [
         component: Article,
         props: true
     },
+    {
+        path: "/article/:id/edit",
+        name: "EditArticle",
+        component: EditArticle,
+        props: true,
+      },
     //redirect
     {
         path: '/all-articles',

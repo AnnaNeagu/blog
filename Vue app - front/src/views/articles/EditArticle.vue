@@ -4,7 +4,7 @@
       class="home container"
       style="margin-top: 100px; background-color: #f3ead8"
     >
-      <span class="text-black fw-bold"><h1>New Article</h1></span>
+      <span class="text-black fw-bold"><h1>Edit Article</h1></span>
       <div class="row">
         <div class="col-3 container">
           <form>
@@ -49,7 +49,7 @@
                   class="btn btn-outline-success"
                   @click="submitForm"
                 >
-                  Submit
+                  Edit
                 </button>
               </div>
             </div>
@@ -66,7 +66,8 @@ import { required, minLength } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 import axios from "axios";
 export default {
-  name: "NewArticle",
+  name: "EditArticle",
+  props: ["id_edit"],
   setup() {
     const state = reactive({
       text: "",
@@ -102,15 +103,15 @@ export default {
       if (!this.v$.$error) {
         alert("Form successfuly submitted.");
         //adding data by constant res
-        const res = await axios.post(
+        const res = await axios.put(
           //path to rails app
-          "http://localhost:3000/apis/articles/v1/articles",
+          "http://localhost:3000/apis/articles/v1/articles/"  + this.id_edit,
           {
             //data taken from the form
             title: this.state.text,
             body: this.state.body,
             status: this.state.status,
-            user_id: 1,
+            
             headers: {
               origin: "http://localhost:3000",
             },
@@ -121,7 +122,10 @@ export default {
         //if the data is added correctly
         if (res.status == 200) {
           //redirect to articles page
-          this.$router.replace({ name: "Articles" });
+          this.$router.replace({
+            name: "Article",
+            params: { id: this.id_edit },
+          });
         }
       } else {
         alert("Form failed validation.");

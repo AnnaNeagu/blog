@@ -25,7 +25,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+
 .root {
   position: relative;
 }
