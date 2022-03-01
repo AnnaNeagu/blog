@@ -11,6 +11,7 @@ import NewArticle from '../views/articles/NewArticle.vue'
 // import { required, email } from '@vuelidate/validators'
 import Signin from '../views/vuelidate/Signin.vue'
 import EditArticle from "../views/articles/EditArticle.vue";
+import Weather from "../views/weather/Weather_page.vue";
 
 const routes = [
     {
@@ -43,6 +44,12 @@ const routes = [
         name: 'Article',
         component: Article,
         props: true
+    },
+    {
+        path: '/weather',
+        name: 'Weather',
+        component: Weather
+       
     },
     {
         path: "/article/:id/edit",

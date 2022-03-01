@@ -17,6 +17,9 @@
     <router-link :to="{name: 'NewArticle'}">
       New Article
      </router-link>
+     <router-link :to="{name: 'Weather'}">
+      Weather
+     </router-link>
        <router-link :to="{name: 'Signin'}">
       Sign In
      </router-link>
