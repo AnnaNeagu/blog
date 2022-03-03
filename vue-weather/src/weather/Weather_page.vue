@@ -1,6 +1,14 @@
 <template>
-  <div class="container" >
-    <div id="app" class="container" :class = "typeof weather.main != 'undefined' && weather.main.temp>16 ? 'warm' : ''">
+  <div class="container">
+    <div
+      id="app"
+      class="container"
+      :class="
+        typeof weather.main != 'undefined' && weather.main.temp > 16
+          ? 'warm'
+          : ''
+      "
+    >
       <main>
         <div class="search-box">
           <input
@@ -18,12 +26,90 @@
             <div class="location">
               {{ weather.name }}, {{ weather.sys.country }}
             </div>
-            <div class="date">{{dateBuilder()}}</div>
+            <div class="date">{{ dateBuilder() }}</div>
           </div>
 
           <div class="weather-box">
             <div class="temp">{{ Math.round(weather.main.temp) }}°c</div>
-            <div class="weather">{{ weather.weather[0].main }}</div>
+            <div class="weather">
+              <!-- <img src='http://openweathermap.org/img/w/+" {{weather.weather[0].icon}} "+ .png'>      -->
+              <!-- {{ weather.weather[0].icon }} -->
+
+              <img
+               width="100" height="100"
+                src="../assets/fewclouds.png"
+                v-if="
+                  weather.weather[0].main == 'Clouds' &&
+                  weather.weather[0].description == 'few clouds'
+                "
+              />
+              <img
+               width="100" height="100"
+                src="../assets/scatteredclouds.png"
+                v-if="
+                  weather.weather[0].main == 'Clouds' &&
+                  weather.weather[0].description == 'scattered clouds'
+                "
+              />
+              <img
+               width="100" height="100"
+                src="../assets/brokenclouds.png"
+                v-if="
+                  weather.weather[0].main == 'Clouds' &&
+                  weather.weather[0].description == 'broken clouds'
+                "
+              />
+              <img
+               width="100" height="100"
+                src="../assets/brokenclouds.png"
+                v-if="
+                  weather.weather[0].main == 'Clouds' &&
+                  weather.weather[0].description == 'overcast clouds'
+                "
+              />
+              <img
+                width="100" height="100"
+                src="../assets/clearsky.png"
+                v-if="weather.weather[0].main == 'Clear'"
+              />
+              <img
+                width="100" height="100"
+                src="../assets/thunderstorm.png"
+                v-if="weather.weather[0].main == 'Thunderstorm'"
+              />
+              <img
+               width="100" height="100"
+                src="../assets/drizzle.png"
+                v-if="weather.weather[0].main == 'Drizzle'"
+              />
+              <img
+                width="100" height="100"
+                src="../assets/rain.png"
+                v-if="weather.weather[0].main == 'Rain'"
+              />
+              <img
+                width="100" height="100"
+                src="../assets/snow.png"
+                v-if="weather.weather[0].main == 'Snow'"
+              />
+              <img
+               width="100" height="100"
+                src="../assets/mist.png"
+                v-if="weather.weather[0].main == 'Mist'"
+              />
+            </div>
+            <div class="description ">
+              {{ weather.weather[0].main }} -  {{ weather.weather[0].description }}
+              <br>
+             Humidity {{ weather.main.humidity }} %
+              <br>
+              Minimum temperature: {{  Math.round(weather.main.temp_min)}}
+               <br>
+              Maximum temperature: {{  Math.round(weather.main.temp_max)}}
+              <br>
+            Wind speed: {{ weather.wind.speed }} %
+              <br>
+            </div>
           </div>
         </div>
       </main>
@@ -42,6 +128,7 @@ export default {
       weather: {},
     };
   },
+
   methods: {
     fetchWeather(e) {
       if (e.key == "Enter") {
@@ -104,13 +191,13 @@ body {
 }
 
 #app {
-  background-image: url("cold-bg.jpg");
+  background-image: url("cold.jpg");
   background-size: cover;
   background-position: bottom;
   transition: 0.4;
 }
 #app.warm {
-  background-image: url('warm-bg.jpg');
+  background-image: url("warm.jpg");
 }
 main {
   min-height: 100vh;
@@ -122,6 +209,7 @@ main {
     rgba(0, 0, 0, 0.75)
   );
 }
+
 
 .search-box {
   width: 100%;
@@ -177,10 +265,7 @@ main {
   font-size: 102px;
   font-weight: 900;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  margin: 30px 0px;
-  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+
 }
 .weather-box .weather {
   color: #fff;
@@ -189,5 +274,13 @@ main {
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
+.weather-box .description {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  font-style: italic;
+  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
 </style>
 
